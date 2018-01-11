@@ -1,130 +1,114 @@
-<p align="center">
-<a href="https://hamed-ehtesham.github.io/pretty-checkbox-vue/">
-    <img src="https://raw.githubusercontent.com/hamed-ehtesham/pretty-checkbox-vue/master/banner.png" width="300px">
-</a>
+#TemplateBannerPlugin
+[![node](https://img.shields.io/badge/node-%5E4.0.0-green.svg?style=flat-square)]()
+[![node](https://img.shields.io/badge/webpack-%5E1.10.0-blue.svg?style=flat-square)]()
 
-<br>
-Quickly integrate <a href="https://lokesh-coder.github.io/pretty-checkbox/">pretty checkbox</a> Components with <a href="https://vuejs.org">Vue.js</a>
-<br>
-<br>
+Adds the data of a package from `package.json` to the top of each generated chunk. (or from any other `json` or `js` file)
 
-<a href="https://lokesh-coder.github.io/pretty-checkbox/">
-    <img alt="" src="https://img.shields.io/badge/%20pretty--checkbox-3.x-green.svg?style=flat-square&colorA=8033b0&colorB=75b7dd">
-</a>
-<a href="https://vuejs.org">
-    <img alt="" src="https://img.shields.io/badge/vue.js-^2.2.0-green.svg?style=flat-square&colorA=35495e&colorB=41b883">
-</a>
-
-<br>
-
-<a href="https://github.com/hamed-ehtesham/pretty-checkbox-vue/releases">
-    <img src="https://img.shields.io/github/release/hamed-ehtesham/pretty-checkbox-vue.svg?style=flat-square&colorB=75b7dd" alt="Github Release">
-</a>
-<a href="https://github.com/hamed-ehtesham/pretty-checkbox-vue/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/pretty-checkbox.svg?style=flat-square&colorB=41b883" alt="Licence">
-</a>
-<a href="https://www.npmjs.com/package/pretty-checkbox-vue">
-    <img alt="" src="https://img.shields.io/npm/dt/pretty-checkbox-vue.svg?style=flat-square">
-</a>
-<a href="https://www.npmjs.com/package/pretty-checkbox-vue">
-    <img alt="" src="https://img.shields.io/npm/dm/pretty-checkbox-vue.svg?style=flat-square">
-</a>
-
-</p>
-
-<div class="highlight highlight-source-shell">
-<pre>
-<div align="center"><strong>Demo and documentation</strong></div>
-<div align="center"><a align="center" href="https://hamed-ehtesham.github.io/pretty-checkbox-vue/">https://hamed-ehtesham.github.io/pretty-checkbox-vue/</a></div>
-</pre>
-</div>
-
-## Installation
-
-```js
-npm i --save-dev pretty-checkbox-vue
-```
-
-### Browser
-
-Include the script file, then install the component with `Vue.use(PrettyCheckbox);` e.g.:
-
-```html
-<script type="text/javascript" src="node_modules/vuejs/dist/vue.min.js"></script>
-<script type="text/javascript" src="node_modules/pretty-checkbox-vue/dist/pretty-checkbox-vue.min.js"></script>
-<script type="text/javascript">
-  Vue.use(PrettyCheckbox);
-</script>
-```
-
-### Module
-
-```js
-import PrettyCheckbox from 'pretty-checkbox-vue';
-
-Vue.use(PrettyCheckbox);
-```
-
-Or
-
-```js
-import PrettyInput from 'pretty-checkbox-vue/input';
-import PrettyCheck from 'pretty-checkbox-vue/check';
-import PrettyRadio from 'pretty-checkbox-vue/radio';
-
-Vue.component('p-input', PrettyInput);
-Vue.component('p-check', PrettyCheck);
-Vue.component('p-radio', PrettyRadio);
+## Install
+```bash
+$ yarn add --dev template-banner-webpack-plugin
+# or
+$ npm i --save-dev template-banner-webpack-plugin
 ```
 
 ## Usage
+Import the plugin module into webpack configuration.
 
-Once installed, it can be used in a template as simply as:
-
-```html
-<p-check name="check" color="success" v-model="check">check</p-check>
-<p-radio name="radio" color="info" v-model="radio">radio</p-radio>
-
-<!-- Or it can be used just like input -->
-
-<p-input type="checkbox" name="check" color="success" v-model="check">check</p-input>
-<p-input type="radio" name="radio" color="info" v-model="radio">radio</p-input>
+```js
+const TemplateBannerPlugin = require('template-banner-webpack-plugin');
 ```
 
+Then use this plugin with some options.
 
-### Properties
-Property | Type | Default Value
------------- | ------------- | -------------
-type | String | checkbox (checkbox & input) or radio (radio) 
-name | String | 
-value | String |  
-true-value | Boolean or String | true
-false-value | Boolean or String | false
-checked | Boolean | false
-disabled | Boolean | false
-required | Boolean | false
-indeterminate | Boolean | false
-color | String | 
-off-color | String | 
-hover-color | String | 
-indeterminate-color | String | 
-toggle | Boolean | false
-hover | Boolean | false
-focus | Boolean | false
+```javascript
+new TemplateBannerPlugin(banner)
+// or
+new TemplateBannerPlugin(options)
+```
 
-### Slots
-Name | Purpose
------------- | -------------
-default (no name) | include **label** in _**default**_ mode or for **"on"** state in _**toggle**_ mode
-extra | include **icon** or **svg** or **image** in _**default**_ mode or for **"on"** state in _**toggle**_ mode
-off-label | include **label** for **"off"** state in _**toggle**_ mode
-off-extra | include **icon** or **svg** or **image** for **"off"** state in _**toggle**_ mode
-hover-label | include **label** in _**hover**_ state
-hover-extra | include **icon** or **svg** or **image** in _**hover**_ state
-indeterminate-label | include **label** in _**indeterminate**_ state
-indeterminate-extra | include **icon** or **svg** or **image** in _**indeterminate**_ state
+```js
+new TemplateBannerPlugin({
+    banner: `<filename>: <chunk.name> <chunk.ids> <hash> <chunk.hash>
+{name} v{version}
+(c) 2017-{year} {author}
+Released under the {license}.`,
+    default(data) {
+        return {
+            year: (new Date()).getFullYear(),
+            license: `${data.license} License`
+        };
+    },
+});
+```
 
-If you have discovered a 🐜 or have a feature suggestion, feel free to create an [issue](https://github.com/hamed-ehtesham/pretty-checkbox-vue/issues) on Github.
+Then output files has template banner like this.
+```js
+/*!
+ * input.js: main 0 add0afa23daa62148cae 9761215c7cb0ac58e442806feccefa72
+ * pretty-checkbox-vue v1.1.2
+ * (c) 2017-2018 Hamed Ehtesham
+ * Released under the MIT License.
+ */
+```
 
-# License
-Released under The MIT [License](https://github.com/hamed-ehtesham/pretty-checkbox-vue/blob/master/LICENSE). Copyright (c) hamed-ehtesham.
+If you have discovered a 🐜 or have a feature suggestion, feel free to create an [issue](https://github.com/hamed-ehtesham/template-banner-webpack-plugin/issues) on Github.
+
+## Options
+```
+new TemplateBannerPlugin(options);
+```
+
+Name | Type | Default Value | Description
+------------ | ------------- | ------------- | -------------
+`banner` | String | '{name} v{version}' | the `banner` `template` as string, to add to the top of each generated chunk; it will be **wrapped in a comment**   
+`raw` | Boolean | false | if `true`, banner **will not** be wrapped in a comment
+`default` | Object or Function | | it is the **data** to be available in `banner` via `template`. any field that exist here would override the fields of `json` or `js` file. if it's a `function` data would be passed to it as an `object` like this `default(data)` then this function can manipulate the data and **return** the new data
+`path` | String | | try to find your current directory or use webpack `context` to locate your filename and if fails to do that throws error
+`filename` | String | 'package.json' | file to use for data could be `json` or `js` (should **exports** (`module.exports` (`commonjs2`)) an `object` or a `function` that returns an object)
+`test` | String or RegExp or Array | | if the argument is a `string` it will be compared with the **whole** chunk's `filename`, `string` elements in array will do the same
+`include` | String or RegExp or Array | | it's not the path; it works just like `test`  
+`exclude` | String or RegExp or Array | | it's not the path; it works just like `test` but to exclude files instead of including theme
+
+## Template
+Use `{}` for all data from `default` values or `json` or `js` file
+
+Use `<>` for all chunk specific data that is `<hash>`, `<chunk>`, `<filename>`, `<basename>`, `<query>`
+
+Note that you can select json or js exported object properties like this: `{repository.url}` or `{keywords[0]}`, `{keywords[3]}`
+
+Note that `<chunk>` is an object too that you can use its properties like `<chunk.name>`, `<chunk.ids[0]>` or `<chunk.hash>`
+
+for more information about chunk properties [see this](https://github.com/webpack/webpack/blob/master/lib/Chunk.js)
+
+### Removing all other comments
+
+If you want to remove all other comments, use `uglifyjs-webpack-plugin`.
+
+for more information about `uglifyjs-webpack-plugin` options [see this](https://webpack.js.org/plugins/uglifyjs-webpack-plugin/)
+
+```bash
+$ yarn add --dev uglifyjs-webpack-plugin
+# or
+$ npm install --save-dev uglifyjs-webpack-plugin 
+```
+
+```js
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+```
+
+and also you **must** use it after UglifyJSPlugin.
+
+```js
+// ...
+  plugins: [
+    new UglifyJSPlugin(),
+    new TemplateBannerPlugin()
+  ]
+// ...
+```
+
+## License
+Released under The MIT [License](https://github.com/hamed-ehtesham/template-banner-webpack-plugin/blob/master/LICENSE). Copyright (c) hamed-ehtesham.
+
+## Author
+[Hamed Ehtesham](https://github.com/hamed-ehtesham)

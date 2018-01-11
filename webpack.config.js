@@ -1,9 +1,6 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const merge = require('webpack-merge');
-const BannerPlugin = require('webpack/lib/BannerPlugin');
-const TemplateBannerPlugin = require('./TemplateBannerPlugin');
-const LicenseBannerPlugin = require('license-banner-webpack-plugin');
+const TemplateBannerPlugin = require('template-banner-webpack-plugin');
 
 const babelConfig = {
     cacheDirectory: true,
@@ -25,94 +22,52 @@ const babelConfig = {
     ]
 };
 
-let config = {
+module.exports = {
+    entry: path.resolve(__dirname + '/TemplateBannerPlugin.js'),
     output: {
-        path: path.resolve(__dirname + '/dist'),
+        path: path.resolve(__dirname + '/'),
+        filename: 'index.js',
+        libraryTarget: 'commonjs2',
+        library: 'TemplateBannerPlugin',
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                include: path.resolve(__dirname + '/src'),
-                exclude: /node_modules/,
+                // include: path.resolve(__dirname + '/src'),
+                // exclude: /node_modules/,
                 use: [{loader: 'babel-loader', options: babelConfig}]
-            },
-            {
-                test: /\.vue$/,
-                include: path.resolve(__dirname + '/src'),
-                loader: 'vue-loader',
-                options: {
-                    loaders: {
-                        js: {
-                            loader: 'babel-loader', options: babelConfig
-                        }
-                    },
-                    esModule: false
-                }
             }
         ]
     },
     plugins: [
-        new UglifyJsPlugin(),
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                // ie8: false,
+                // ecma: 8,
+                // parse: {...options},
+                // mangle: {
+                //     ...options,
+                //     properties: {
+                //         // mangle property options
+                //     }
+                // },
+                // output: {
+                //     comments: false,
+                //     beautify: true,
+                //     ...options
+                // },
+                // compress: {...options},
+                // warnings: false
+            }
+        }),
         new TemplateBannerPlugin({
             banner: `{name} v{version}
-(c) 2017-{year} {author}
+(c) 2018 {author}
 Released under the {license} License.`,
             default: {
-                year: (new Date()).getFullYear()
+                year: (new Date()).getFullYear(),
             },
-            filename: 'package.js'
         }),
     ]
 };
-
-
-module.exports = [
-    // merge(config, {
-    //     entry: path.resolve(__dirname + '/src/plugin.js'),
-    //     output: {
-    //         filename: 'pretty-checkbox-vue.min.js',
-    //         libraryTarget: 'window',
-    //         library: 'PrettyCheckbox',
-    //     }
-    // }),
-    // merge(config, {
-    //     entry: path.resolve(__dirname + '/src/plugin.js'),
-    //     output: {
-    //         filename: 'pretty-checkbox-vue.js',
-    //         libraryTarget: 'umd',
-    //         library: 'pretty-checkbox-vue',
-    //         umdNamedDefine: true
-    //     }
-    // }),
-    merge(config, {
-        entry: path.resolve(__dirname + '/src/PrettyInput.vue'),
-        output: {
-            path: path.resolve(__dirname + '/'),
-            filename: 'input.js',
-            libraryTarget: 'umd',
-            library: 'PrettyInput',
-            umdNamedDefine: true
-        }
-    }),
-    // merge(config, {
-    //     entry: path.resolve(__dirname + '/src/PrettyCheckbox.vue'),
-    //     output: {
-    //         path: path.resolve(__dirname + '/'),
-    //         filename: 'check.js',
-    //         libraryTarget: 'umd',
-    //         library: 'PrettyCheck',
-    //         umdNamedDefine: true
-    //     }
-    // }),
-    // merge(config, {
-    //     entry: path.resolve(__dirname + '/src/PrettyRadio.vue'),
-    //     output: {
-    //         path: path.resolve(__dirname + '/'),
-    //         filename: 'radio.js',
-    //         libraryTarget: 'umd',
-    //         library: 'PrettyRadio',
-    //         umdNamedDefine: true
-    //     }
-    // })
-];
