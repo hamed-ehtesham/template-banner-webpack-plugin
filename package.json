@@ -1,0 +1,43 @@
+{
+  "name": "template-banner-webpack-plugin",
+  "version": "1.1.0",
+  "description": "Adds the data of a package from package.json to the top of each generated chunk. (or from any other json or js file)",
+  "keywords": [
+    "template",
+    "banner",
+    "webpack",
+    "plugin",
+    "json",
+    "version",
+    "license"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --hide-modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamed-ehtesham/template-banner-webpack-plugin.git"
+  },
+  "files": [
+    "index.js"
+  ],
+  "author": "Hamed Ehtesham",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hamed-ehtesham/template-banner-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/hamed-ehtesham/template-banner-webpack-plugin#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "escape-string-regexp": "^1.0.5",
+    "lodash": "^4.17.4",
+    "template-banner-webpack-plugin": "^1.0.0",
+    "uglifyjs-webpack-plugin": "^1.1.6",
+    "webpack": "^3.10.0"
+  }
+}
