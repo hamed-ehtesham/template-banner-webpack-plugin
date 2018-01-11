@@ -1,4 +1,4 @@
-#TemplateBannerPlugin
+# TemplateBannerPlugin
 [![node](https://img.shields.io/badge/node-%5E4.0.0-green.svg?style=flat-square)]()
 [![node](https://img.shields.io/badge/webpack-%5E1.10.0-blue.svg?style=flat-square)]()
 
