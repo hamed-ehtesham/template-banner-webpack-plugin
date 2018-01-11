@@ -1,6 +1,6 @@
 {
   "name": "template-banner-webpack-plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Adds the data of a package from package.json to the top of each generated chunk. (or from any other json or js file)",
   "keywords": [
     "template",
